@@ -6,6 +6,7 @@ module.exports.profile = function(req,res){
 
 //usersProfile
 module.exports.usersProfile=function(req,res){
+
     return res.render("user_profile",{
         title:"profile"
     });
@@ -14,6 +15,11 @@ module.exports.usersProfile=function(req,res){
 
 //render sign-in page
 module.exports.userSignIn=function(req,res){
+
+    if(req.isAuthenticated()){
+        res.redirect('/users/usersProfile');
+    }
+    
     return res.render('user_sign_in',{
         title:"codeial/sign in"
     });
@@ -21,6 +27,11 @@ module.exports.userSignIn=function(req,res){
 
 //render sign-up page
 module.exports.userSignUp=function(req,res){
+
+    if(req.isAuthenticated()){
+        res.redirect('/users/usersProfile');
+    }
+
     return res.render('user_sign_up',{
         title:"codeial/sign up"
     });
@@ -50,5 +61,5 @@ module.exports.create=function(req, res){
 
 //render createSession
  module.exports.createSession=function(req,res){
-    //TODO latter
+    return res.redirect('/');
  }
