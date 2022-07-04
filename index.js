@@ -9,8 +9,20 @@ const session = require('express-session'); //encprypts the id
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongo');
+const sassMiddleware=require('node-sass-middleware');
+const { where } = require('./models/user');
 
 const app = express();
+
+// sass/scss middleware for making css (styling easy)
+app.use(sassMiddleware({
+  src: './assets/scss',   //from where the scss will be picked to be converted to css
+  dest: './assets/css'  , //from where the css to be picked
+  debug: 'true',  //to show the err while unable to convert to css
+  outputStyle: 'extended', //we want it to be in multiple line and understandable
+  prefix: '/css'
+}));
+
 
 //middle ware to the form post data 
 app.use(bodyParser.urlencoded({extended:false}));
