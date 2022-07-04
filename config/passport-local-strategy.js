@@ -1,11 +1,11 @@
 const { use } = require('passport');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy =  require('passport-local').Strategy   //require('passport-local').Strategy;
 const User = require('../models/user');
 
 
 // authentication using passport
-passport.use(
+passport.use( new LocalStrategy(
     {
         usernameField: 'email'
     },
@@ -26,7 +26,7 @@ passport.use(
             return done(null,user); ////null :- no error , user:- user found
         });
     }
-);
+));
 
 
 
@@ -56,7 +56,7 @@ passport.deserializeUser(function(id,done){
 //check if user is authenticated  // to send the data to the views
 passport.checkAuthentication = function(req, res, next){
     //if the user is signed in , then opass on the request to the next function( controller's action )
-    if(req.isAuhenticated()){
+    if(req.isAuthenticated()){
         return next(); //if authentiated , passed it to the next page
     }
     // if the user is not signed in
@@ -66,7 +66,7 @@ passport.checkAuthentication = function(req, res, next){
 passport.setAuthenticatedUser = function(req, res, next){
     if(req.isAuthenticated()){
         //req.user contains the current signed in user from the session cookies and we are just sending this to the locals for the view
-        res.local.user = req.user;  
+        res.locals.user = req.user;  
     }
     next();
 }

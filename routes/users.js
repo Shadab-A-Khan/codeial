@@ -4,8 +4,11 @@ const passport = require('passport');
 
 const usersController=require('../controllers/users_controller');
 
-router.get('/usersProfile' ,passport.checkAuthentication ,usersController.usersProfile); //check authentication will ensure that user is signed in ,
-                                                                                        //then only he can get to the profile page
+router.get('/usersProfile' ,passport.checkAuthentication ,usersController.usersProfile); 
+//check authentication will ensure that user is signed in ,
+//then only he can get to the profile page
+
+
 router.get('/sign_in' ,usersController.userSignIn);
 router.get('/sign_up' ,usersController.userSignUp);
 
@@ -18,5 +21,5 @@ router.post('/create-session', passport.authenticate(
    {failureRedirect: '/users/sign_in'},
 ), usersController.createSession);
 
-
+router.get('/sign_out', usersController.destroySession);
 module.exports=router;
