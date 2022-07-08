@@ -6,10 +6,12 @@ module.exports.profile = function (req, res) {
 
 //usersProfile
 module.exports.usersProfile = function (req, res) {
-
+  User.findById(req.params.id, function(err, user){
     return res.render("user_profile", {
-        title: "profile"
+        title: "profile",
+        profile_user: user
     });
+  });   
 }
 
 
