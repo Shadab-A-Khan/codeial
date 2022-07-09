@@ -79,6 +79,7 @@ module.exports.create = function (req, res) {
 //render createSession
 module.exports.createSession = function (req, res) {
     //req.logout();
+    req.flash('success', 'Logged in Successfully');
     return res.redirect('/');
 }
 
@@ -88,7 +89,10 @@ module.exports.destroySession = function (req, res) {
         if (err) {
             return next(err);
         }
-        res.redirect('/');
+    //    return res.redirect('/');
     });
+    // req.logout();
+    req.flash('success', 'You have logged out');
+    return res.redirect('/')
 }
 
