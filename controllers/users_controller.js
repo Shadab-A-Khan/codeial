@@ -1,28 +1,58 @@
+// const { rawListeners } = require("../models/user");
 const User = require("../models/user");
+const fs = require('fs');
+const path = require('path');
 
-// module.exports.profile = function (req, res) {
-//     return res.end('<h1> Users profile <h1>');
-// }
 
 //usersProfile
 module.exports.usersProfile = function (req, res) {
-  User.findById(req.params.id, function(err, user){
-    return res.render('user_profile', {
-        title: "profile",
-        profile_user: user
+    User.findById(req.params.id, function (err, user) {
+        return res.render('user_profile', {
+            title: "profile",
+            profile_user: user
+        });
     });
-  });   
 }
 
-module.exports.update=function(req, res){
-    if(req.user.id==req.params.id){
-       User.findByIdAndUpdate(req.params.id, req.body, function(err, user){ //req.body can also be written as {name: req.body.name , emal: req.body.email}
-           return res.redirect('back');
-       });
-    }else{
+module.exports.update = async function (req, res) {
+
+    if (req.user.id == req.params.id) {
+        try {
+
+            let user = await User.findById(req.params.id);
+            User.uploadedAvatar(req, res, function (err) {
+                if (err) {
+                    console.log('******Multer Eroor: ', err)
+                }
+                // console.log(req.file);
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+
+                if (req.file) {
+
+                    //if the avatar is already present and to replace it with the new one , and to not store multiple avatar
+                    if (user.avatar) {
+                        fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+                    }
+                    user.avatar = User.avatarPath + '/' + req.file.filename;
+                }
+                user.save();
+                return res.redirect('back');
+            });
+        } catch (err) {
+            req.flash('error', err);
+            return res.redirect('back');
+        }
+
+    } else {
+        req.flash('error', 'Unauthorised');
         return res.status(401).send('Unauthorized');
     }
 }
+
+
+
 
 //render sign-in page
 module.exports.userSignIn = function (req, res) {
@@ -89,7 +119,7 @@ module.exports.destroySession = function (req, res) {
         if (err) {
             return next(err);
         }
-    //    return res.redirect('/');
+        //    return res.redirect('/');
     });
     // req.logout();
     req.flash('success', 'You have logged out');

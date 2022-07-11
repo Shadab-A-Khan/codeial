@@ -40,6 +40,8 @@ app.use(bodyParser.json());
 //middleware to use the cookieParser
 app.use(cookieParser());
 
+//make the uploads file available to the browser
+app.use('/uploads',express.static(__dirname + '/uploads'));  //connetct the current path with the uploads
 
 //extract styles and script from sub pages into the layout
 app.set('layout extractStyles', true);
