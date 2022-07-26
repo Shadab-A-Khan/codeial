@@ -1,5 +1,5 @@
-#layout-header{
-    nav{
+#layout-header {
+    nav {
         display: flex;
         justify-content: space-between;
         padding: 0 10px;
@@ -7,26 +7,26 @@
         color: white;
         box-shadow: 1px 1px 1px 1px lightgrey;
 
-        .mini-logo{
-            p{
+        .mini-logo {
+            p {
                 margin: 5px;
                 font-size: 1.4rem;
                 font-weight: bold;
             }
         }
 
-        .auth-links{
-            ul{
+        .auth-links {
+            ul {
                 margin: 5% 5px;
                 display: flex;
 
-                li{
+                li {
                     margin-right: 10px;
                 }
             }
         }
 
-        a{
+        a {
             color: white;
             text-decoration: none;
         }

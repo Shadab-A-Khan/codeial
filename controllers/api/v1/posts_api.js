@@ -22,15 +22,15 @@ module.exports.index = async function (req, res) {
 
 
 
-module.exports.destroy = async function(req, res){
+module.exports.destroy = async function (req, res) {
 
-    try{
+    try {
         let post = await Post.findById(req.params.id);
 
-         if (post.user == req.user.id){
+        if (post.user == req.user.id) {
             post.remove();
 
-            await Comment.deleteMany({post: req.params.id});
+            await Comment.deleteMany({ post: req.params.id });
 
 
             // if (req.xhr){
@@ -47,17 +47,17 @@ module.exports.destroy = async function(req, res){
             return res.json(200, {
                 message: "Post and associated comments deleted successfully"
             })
-        }else{
+        } else {
             return res.json(401, {
                 message: "you are not authorised to delete this post",
             })
         }
 
-    }catch(err){
-       // req.flash('error', err);
+    } catch (err) {
+        // req.flash('error', err);
         return res.json(500, {
             message: "Internal Server Error"
         });
     }
-    
+
 }

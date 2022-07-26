@@ -43,7 +43,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 //make the uploads file available to the browser
-app.use('/uploads',express.static(__dirname + '/uploads'));  //connetct the current path with the uploads
+app.use('/uploads', express.static(__dirname + '/uploads'));  //connetct the current path with the uploads
 
 //extract styles and script from sub pages into the layout
 app.set('layout extractStyles', true);
@@ -113,3 +113,4 @@ app.listen(port, function (err) {
     }
     console.log(`server is runnig on port: ${port}`);
 });
+

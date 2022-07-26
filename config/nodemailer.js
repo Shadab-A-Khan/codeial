@@ -26,7 +26,7 @@ let renderTemplet = (data, relativePath) => {
         data,                                                  //the data that needs to be filled inside the templets -- data is the context that is passed to the ejs
         function (err, templet) {  //templet = path.join + data
             if (err) {
-                console.log('error in rendering the templet',err);
+                console.log('error in rendering the templet', err);
                 return;
             }
             mailHTML = templet;
@@ -38,6 +38,6 @@ let renderTemplet = (data, relativePath) => {
 
 
 module.exports = {
-    transporter: transporter, 
+    transporter: transporter,
     renderTemplet: renderTemplet
 }

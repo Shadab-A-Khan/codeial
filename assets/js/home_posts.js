@@ -5,6 +5,7 @@
         //method to sumbit the form data for new post using AJAX
         let newPostForm = $('#new-post-form');
 
+
         newPostForm.submit(function (e) {
             e.preventDefault();
 
@@ -15,14 +16,40 @@
                 success: function (data) {
                     let newPost = newPostDom(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
-                    deletePost($(' .delete-post-button',newPost));
-                    // console.log(newPost);
+                    deletePost($(' .delete-post-button', newPost));
+                    //____________
+                    // call the create comment class
+                    new PostComments(data.data.post._id);
+
+                    // CHANGE :: enable the functionality of the toggle like button on the new post
+                    new ToggleLike($(' .toggle-like-button', newPost));
+
+                    new Noty({
+                        theme: 'relax',
+                        text: "Post published!",
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+
+                    }).show();
+
                 }, error: function (error) {
                     console.log(error.responseText);
                 }
             });
         });
     }
+
+
+
+
+    //                 // console.log(newPost);
+    //             }, error: function (error) {
+    //                 console.log(error.responseText);
+    //             }
+    //         });
+    //     });
+    // }
 
 
     //Method to create a post in DOM
@@ -32,7 +59,7 @@
         <p>
             
                 <small>
-                    <a class="delete-post-button" href="/posts/destroy/${ post._id }">X</a>
+                    <a class="delete-post-button" href="/posts/destroy/${post._id}">X</a>
                 </small>
             
     
@@ -41,6 +68,16 @@
                         <small>
                         ${post.user.name}
                         </small>
+
+                        <br>
+                        <small>
+                            
+                                <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${post._id}&type=Post">
+                                    0 Likes
+                                </a>
+                            
+                        </small>
+
         </p>
         <div class="post-comments">
             
@@ -70,16 +107,16 @@
 
     //method to delete a post from DOM
 
-    let deletePost = function(deleteLink){
-        $(deleteLink).click(function(e){
+    let deletePost = function (deleteLink) {
+        $(deleteLink).click(function (e) {
             e.preventDefault();
 
             $.ajax({
                 type: 'get',
                 url: $(deleteLink).prop('href'),
-                success: function(data){
+                success: function (data) {
                     $(`#post-${data.data.post._id}`).remove();
-                },error: function(eroor){
+                }, error: function (eroor) {
                     console.log(error.responseText);
                 }
             });

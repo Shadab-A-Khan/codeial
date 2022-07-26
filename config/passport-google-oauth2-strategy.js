@@ -13,7 +13,7 @@ passport.use(new googleStrategy({
     function (accesToken, refreshToken, profile, done) { //profile will contain users info
 
         //find a user
-        User.findOne({email: profile.emails[0].value}).exec(function(err, user){
+        User.findOne({ email: profile.emails[0].value }).exec(function (err, user) {
             if (err) { console.log('error in google stategy-passport', err); return }
 
             console.log(profile);
