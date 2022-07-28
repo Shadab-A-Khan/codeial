@@ -17,6 +17,15 @@ const flash = require('connect-flash')
 const app = express();
 const customMware = require('./config/middleware');
 
+
+//setup the char server to beused with socket.io
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('char server is listening on port 5000');
+
+
+
 // sass/scss middleware for making css (styling easy)
 app.use(sassMiddleware({
     src: './assets/scss',   //from where the scss will be picked to be converted to css
