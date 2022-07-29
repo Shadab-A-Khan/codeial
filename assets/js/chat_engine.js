@@ -27,5 +27,40 @@ class ChatEngine {
         self.socket.on('user_joined', function (data) {
             console.log('a user has joined');
         });
+
+        //CHANGE :: send a message on clicking the send message button
+        $('#send-messege').click(function () {
+            let msg = $('chat-message-input').val();
+
+            if (msg != '') {
+                self.socket.email('send_message', {
+                    message: msg,
+                    user_email: self.userEmail,
+                    chatroom: 'codeial'
+                });
+            }
+        });
+
+        self.socket.on('recive_message', function (data) {
+            console.log('message received', data.message);
+
+            let message = $('<li>');
+            let messageType = 'other-messsage'
+            if (data.user_email == self.userEmail) {
+                messageType = 'self-message'
+            }
+            newMessage.append($('<span>', {
+                'html': data.message
+            }));
+
+            newMessage.append('<sub>', {
+                'html': data.user_email
+            })
+
+            newMessage.addClass(messageType);
+
+            $('#chat-message-list').append(newMessage);
+            
+        })
     }
 }
