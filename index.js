@@ -1,4 +1,6 @@
 const express = require('express');
+const env = require('./config/environment');                          //development-------
+const logger = require('morgan');
 const cookieParser = require('cookie-parser')
 const expressLayout = require('express-ejs-layouts');
 const db = require('./config/mongoose');
@@ -15,8 +17,9 @@ const sassMiddleware = require('node-sass-middleware');
 const { where } = require('./models/user');
 const flash = require('connect-flash')
 const app = express();
+require('./config/view-helpers')(app);                                  //development-------
 const customMware = require('./config/middleware');
-
+const path = require('path');                                           //development-------
 
 //setup the char server to beused with socket.io
 const chatServer = require('http').Server(app);
@@ -26,20 +29,53 @@ console.log('chat server is listening on port 5000');
 
 
 
-// sass/scss middleware for making css (styling easy)
-app.use(sassMiddleware({
-    src: './assets/scss',   //from where the scss will be picked to be converted to css
-    dest: './assets/css', //from where the css to be picked
-    debug: 'true',  //to show the err while unable to convert to css
-    outputStyle: 'extended', //we want it to be in multiple line and understandable
-    prefix: '/css'
-}));
+// // sass/scss middleware for making css (styling easy)
+// app.use(sassMiddleware({
+//     src: './assets/scss',   //from where the scss will be picked to be converted to css
+//     dest: './assets/css', //from where the css to be picked
+//     debug: 'true',  //to show the err while unable to convert to css
+//     outputStyle: 'extended', //we want it to be in multiple line and understandable
+//     prefix: '/css'
+// }));
+
+//   |
+//   |
+//   |development
+//   |                                                 //development-------
+//   V
+
+
+// // sass/scss middleware for making css (styling easy)
+// app.use(sassMiddleware({
+//     src: path.join(__dirname, env.asset_path, 'scss'),
+//     dest: path.join(__dirname, env.asset_path, 'css'),
+//     debug: true,
+//     outputStyle: 'extended',
+//     prefix: '/css'
+// }));
+
+//   |
+//   |
+//   V
+
+if (env.name == 'development') {
+    app.use(sassMiddleware({
+        src: path.join(__dirname, env.asset_path, 'scss'),
+        dest: path.join(__dirname, env.asset_path, 'css'),
+        debug: true,
+        outputStyle: 'extended',
+        prefix: '/css'
+    }));
+}
+
+
+
 
 
 //middle ware to the form post data 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));                                       //development-------
 
 app.use(expressLayout);
 
@@ -53,6 +89,9 @@ app.use(cookieParser());
 
 //make the uploads file available to the browser
 app.use('/uploads', express.static(__dirname + '/uploads'));  //connetct the current path with the uploads
+
+app.use(logger(env.morgan.mode, env.morgan.options));
+
 
 //extract styles and script from sub pages into the layout
 app.set('layout extractStyles', true);
@@ -92,7 +131,7 @@ app.set('views', './views');
 app.use(session({
     name: 'codeial',
     // TODO change the secret before deployment in production mode
-    secret: 'blahsomething',
+    secret: env.session_cookie_key,
     saveUninitialized: false,
     resave: false,
     cookie: {
@@ -115,11 +154,20 @@ app.use(customMware.setFlash);
 //use express router
 app.use('/', require('./routes'));
 
-const port = 8000;
-app.listen(port, function (err) {
+
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, function (err) {
     if (err) {
         console.log(`error in running the server: ${err}`);
     }
-    console.log(`server is runnig on port: ${port}`);
+    console.log(`server is runnig on port: ${PORT}`);
 });
+
+// const port = 8000;
+// app.listen(port, function (err) {
+//     if (err) {
+//         console.log(`error in running the server: ${err}`);
+//     }
+//     console.log(`server is runnig on port: ${port}`);
+// });
 

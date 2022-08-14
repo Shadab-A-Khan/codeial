@@ -8,7 +8,7 @@ module.exports.create = async function (req, res) {
             content: req.body.content,
             user: req.user._id
         });
-
+         post=await post.populate('user','name email');
         //check if the request is AJAX 
         if (req.xhr) {
             return res.status(200).json({
@@ -35,10 +35,10 @@ module.exports.destroy = async function (req, res) {
 
         if (post.user == req.user.id) {
 
-            
+
             // CHANGE :: delete the associated likes for the post and all its comments' likes too
-            await Like.deleteMany({likeable: post, onModel: 'Post'});
-            await Like.deleteMany({_id: {$in: post.comments}});
+            await Like.deleteMany({ likeable: post, onModel: 'Post' });
+            await Like.deleteMany({ _id: { $in: post.comments } });
 
 
 

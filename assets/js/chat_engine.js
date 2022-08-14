@@ -73,7 +73,7 @@ class ChatEngine {
         this.chatBox = $(`#${chatBoxId}`);
         this.userEmail = userEmail;
 
-        this.socket = io.connect('http://:5000');
+        this.socket = io.connect('http://localhost:5000');
 
         if (this.userEmail) {
             this.connectionHandler();
@@ -95,7 +95,7 @@ class ChatEngine {
             });
 
             self.socket.on('user_joined', function (data) {
-                console.log('a user joined!');
+                console.log('a user joined!',data);
             })
 
 
@@ -114,50 +114,75 @@ class ChatEngine {
             }
         });
 
-        self.socket.on('receive_message', function (data) {
-            // console.log('message received', data.message);
-            
-            function appendMessage(data) {
-                let newMessage = $('<li>');
+        self.socket.on('receive_message', function(data){
+            console.log('message received', data.message);
 
-                let messageType = 'other-message';
 
-                if (data.user_email == self.userEmail) {
-                    messageType = 'self-message';
-                }
+            let newMessage = $('<li>');
 
-                newMessage.append($('<span>', {
-                    'html': data.message
-                }));
+            let messageType = 'other-message';
 
-                newMessage.append($('<sub>', {
-                    'html': data.user_email
-                }));
-
-                newMessage.addClass(messageType);
-
-                $('#chat-messages-list').append(newMessage);
+            if (data.user_email == self.userEmail){
+                messageType = 'self-message';
             }
-            const messages = document.getElementById('chat-messages-list');
-            scrollToBottom();
-            getMessages(data);
-            function getMessages(data) {
-                // Prior to getting your messages.
-                var shouldScroll = messages.scrollTop + messages.clientHeight === messages.scrollHeight;
-                /*
-                 * Get your messages, we'll just simulate it by appending a new one syncronously.
-                 */
-                appendMessage(data);
-                // After getting your messages.
-                if (!shouldScroll) {
-                    scrollToBottom();
-                }
-            }
-    
-            function scrollToBottom() {
-                messages.scrollTop = messages.scrollHeight;
-            }
-    
+
+            newMessage.append($('<span>', {
+                'html': data.message
+            }));
+
+            newMessage.append($('<div>', {
+                'html': data.user_email
+            }));
+
+            newMessage.addClass(messageType);
+
+            $('#chat-messages-list').append(newMessage);
         })
+
+        // self.socket.on('receive_message', function (data) {
+        //      console.log('message received', data.message);
+            
+        //     function appendMessage(data) {
+        //         let newMessage = $('<li>');
+
+        //         let messageType = 'other-message';
+
+        //         if (data.user_email == self.userEmail) {
+        //             messageType = 'self-message';
+        //         }
+
+        //         newMessage.append($('<span>', {
+        //             'html': data.message
+        //         }));
+
+        //         newMessage.append($('<sub>', {
+        //             'html': data.user_email
+        //         }));
+
+        //         newMessage.addClass(messageType);
+
+        //         $('#chat-messages-list').append(newMessage);
+        //     }
+            // const messages = document.getElementById('chat-messages-list');
+            // scrollToBottom();
+            // getMessages(data);
+            // function getMessages(data) {
+            //     // Prior to getting your messages.
+            //     var shouldScroll = messages.scrollTop + messages.clientHeight === messages.scrollHeight;
+            //     /*
+            //      * Get your messages, we'll just simulate it by appending a new one syncronously.
+            //      */
+            //     appendMessage(data);
+            //     // After getting your messages.
+            //     if (!shouldScroll) {
+            //         scrollToBottom();
+            //     }
+            // }
+    
+            // function scrollToBottom() {
+            //     messages.scrollTop = messages.scrollHeight;
+            // }
+    
+        // })
     }
 }

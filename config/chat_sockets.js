@@ -46,7 +46,7 @@ module.exports.chatSockets = function (socketServer) {
         }
     });
     io.on('connection', function (socket) {
-        // console.log('new connection received', socket.id);
+        console.log('new connection received', socket.id);
 
         socket.on('disconnect', function () {
             console.log('socket disconnected');
@@ -54,7 +54,7 @@ module.exports.chatSockets = function (socketServer) {
         });
 
         socket.on('join_room', function (data) {
-            // console.log('Joining request rec.', data);
+            console.log('Joining request rec.', data);
 
             socket.join(data.chatroom);
 

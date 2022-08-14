@@ -4,7 +4,7 @@
 const user = require('../../../models/user');
 const jwt = require('jsonwebtoken');
 const User = require('../../../models/user');
-
+const env = require('../../../config/environment')
 
 
 module.exports.createSession = async function (req, res) {
@@ -20,7 +20,7 @@ module.exports.createSession = async function (req, res) {
         return res.json(200, {
             message: "Sing in successfully , here is your token , please keep it safe",
             data: {
-                token: jwt.sign(user.toJSON(), 'codeial', { expiresIn: '100000' })   //jwt.sign() -- is the defined function && user.toJSON() its converts users to json
+                token: jwt.sign(user.toJSON(), env.jwt_secret, { expiresIn: '100000' })   //jwt.sign() -- is the defined function && user.toJSON() its converts users to json
             }
         })
 
@@ -30,6 +30,5 @@ module.exports.createSession = async function (req, res) {
             message: "Internal Server Error"
         });
     }
-
 
 }
