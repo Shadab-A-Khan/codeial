@@ -1,6 +1,3 @@
-//this will be like users controller
-
-
 const user = require('../../../models/user');
 const jwt = require('jsonwebtoken');
 const User = require('../../../models/user');
@@ -25,7 +22,6 @@ module.exports.createSession = async function (req, res) {
         })
 
     } catch (err) {
-        console.log('******', err);
         return res.json(500, {
             message: "Internal Server Error"
         });

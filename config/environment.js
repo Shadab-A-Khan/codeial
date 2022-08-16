@@ -13,7 +13,6 @@ const accessLogStream = rfs.createStream('access.log', {
 
 
 
-
 const development = {
     name: 'development',
     asset_path: './assets',
@@ -24,9 +23,9 @@ const development = {
         host: 'smtp.gmail.com',
         port: 587,
         secure: false,
-        auth: {                                       //authentication
-            user: 'shadabahmadkhan4@gmail.com',       // it will be user email id
-            pass: 'wszjicyzavkwfsrt'                  //password
+        auth: {                                      
+            user: 'shadabahmadkhan4@gmail.com',       
+            pass: 'wszjicyzavkwfsrt'                 
         }
         ,
         tls: {
@@ -49,7 +48,6 @@ const development = {
 
 const codeial_production = {
     name: 'production',
-    //  asset_path:'./public/assets',
     asset_path: process.env.CODEIAL_ASSET_PATH, 
     session_cookie_key: process.env.SESSION_COOKIE_KEY,
     db: process.env.CODEIAL_DB,
@@ -58,9 +56,9 @@ const codeial_production = {
         host: 'smtp.gmail.com',
         port: 587,
         secure: false,
-        auth: {                                       //authentication
-            user: 'shadabahmadkhan4@gmail.com',       // it will be user email id
-            pass: 'wszjicyzavkwfsrt'                  //password
+        auth: {                                       
+            user: 'shadabahmadkhan4@gmail.com',       
+            pass: 'wszjicyzavkwfsrt'                  
         }
         ,
         tls: {

@@ -34,7 +34,7 @@ const queue = require('../config/kue');
 module.exports.create = async function (req, res) {
     console.log('Befor try');
     try {
-        console.log('****** Control is here');
+
         let post = await Post.findById(req.body.post);
 
         if (post) {
@@ -48,7 +48,7 @@ module.exports.create = async function (req, res) {
             post.save();
             let user = await User.findById(post.user);
             comment = await comment.populate('user', 'name email');
-            //commentsMailer.newComment(comment);
+
             let job = queue.create('emails', comment).save(function (err) {
                 if (err) {
                     console.log('error in creating a queue', err);
@@ -69,9 +69,7 @@ module.exports.create = async function (req, res) {
                 });
             }
 
-
             req.flash('success', 'Comment published!');
-            console.log('****** Control is here');
             return res.redirect('/');
         } else {
             console.log("post not found");

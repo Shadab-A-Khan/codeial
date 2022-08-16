@@ -1,10 +1,9 @@
-// const { rawListeners } = require("../models/user");
 const User = require("../models/user");
 const fs = require('fs');
 const path = require('path');
 
 
-//usersProfile
+
 module.exports.usersProfile = function (req, res) {
     User.findById(req.params.id, function (err, user) {
         return res.render('user_profile', {
@@ -24,14 +23,12 @@ module.exports.update = async function (req, res) {
                 if (err) {
                     console.log('******Multer Eroor: ', err)
                 }
-                // console.log(req.file);
                 user.name = req.body.name;
                 user.email = req.body.email;
 
 
                 if (req.file) {
 
-                    //if the avatar is already present and to replace it with the new one , and to not store multiple avatar
                     if (user.avatar) {
                         fs.unlinkSync(path.join(__dirname, '..', user.avatar));
                     }

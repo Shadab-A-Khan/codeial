@@ -5,4 +5,4 @@ const likesController = require('../controllers/likes_controllers');
 
 router.post('/toggle', likesController.toggleLike);
 
-module.exports=router;
+module.exports = router;

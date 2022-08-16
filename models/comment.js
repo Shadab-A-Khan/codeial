@@ -1,5 +1,3 @@
-//Here we write the Schema for Comments
-
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
@@ -8,7 +6,7 @@ const commentSchema = new mongoose.Schema({
         required: true
     },
 
-    //comments belongs to a user
+
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

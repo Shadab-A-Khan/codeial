@@ -2,7 +2,7 @@
     let createPost = function () {
 
 
-        //method to sumbit the form data for new post using AJAX
+
         let newPostForm = $('#new-post-form');
 
 
@@ -11,17 +11,16 @@
 
             $.ajax({
                 type: 'post',
-                url: '/posts/create', //send req
-                data: newPostForm.serialize(), //it converts data into json
+                url: '/posts/create',
+                data: newPostForm.serialize(),
                 success: function (data) {
                     let newPost = newPostDom(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
                     deletePost($(' .delete-post-button', newPost));
-                    //____________
-                    // call the create comment class
+
                     new PostComments(data.data.post._id);
 
-                    // CHANGE :: enable the functionality of the toggle like button on the new post
+
                     new ToggleLike($(' .toggle-like-button', newPost));
 
                     new Noty({
@@ -40,19 +39,6 @@
         });
     }
 
-
-
-
-    //                 // console.log(newPost);
-    //             }, error: function (error) {
-    //                 console.log(error.responseText);
-    //             }
-    //         });
-    //     });
-    // }
-
-
-    //Method to create a post in DOM
 
     let newPostDom = function (post) {
         return $(`<li id="post-${post._id}">
@@ -105,7 +91,6 @@
     }
 
 
-    //method to delete a post from DOM
 
     let deletePost = function (deleteLink) {
         $(deleteLink).click(function (e) {

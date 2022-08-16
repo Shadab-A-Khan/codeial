@@ -1,6 +1,3 @@
-<!-- <link rel="stylesheet" href="/css/home.css">
-<link rel="stylesheet" href="/css/chat_box.css"> -->
-
 <link rel="stylesheet" href="<%= assetPath('css/home.css') %>">
 <link rel="stylesheet" href="<%= assetPath('css/chat_box.css') %>">
 
@@ -8,7 +5,6 @@
     <section id="feed-posts">
         <h4>Posts</h4>
         <% if(locals.user){ %>
-            <!-- check authentication -->
             <form action="/posts/create" id="new-post-form" method="POST">
                 <textarea name="content" cols="30" rows="3" placeholder="Type Here..."></textarea>
                 <input type="submit" value="Post">
@@ -44,17 +40,10 @@
 </div>
 
 
-<!-- <script src="/js/home_post_comments.js"></script>
-<script src="/js/home_posts.js"></script> -->
-
-<!-- development -->
-<!-- importing this script for creating the comments -->
 <script src="<%= assetPath('js/home_post_comments.js') %>"></script>
 <script src="<%= assetPath('js/home_posts.js') %>"></script>
 
 
-<!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
-<!-- <script src="js/toggle_likes.js"></script> -->
 
 <script src="<%= assetPath('js/toggle_likes.js') %>"></script>
 <script>
@@ -64,8 +53,7 @@
     });
 </script>
 
-<!-- <script src="/js/chat_engine.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
 
 <script src="<%= assetPath('js/chat_engine.js') %>"></script>
 
@@ -73,16 +61,4 @@
     <script>
         new ChatEngine('user-chat-box', '<%= locals.user.email %>');
     </script>
-    <% } %> -->
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
-<script src="<%= assetPath('js/chat_engine.js') %>"></script>
-
-
-<!-- This is the front-end established for creating a connection -->
-<% if (locals.user){ %>
-    <script>
-        new ChatEngine('user-chat-box', '<%= locals.user.email %>')
-    </script>
-<% } %>
+    <% } %>
